@@ -7,14 +7,17 @@
     <groupId>cn.itcast.mybatis</groupId>
     <artifactId>mybatis-generator</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-maven-plugin -->
-        <!--https://my.oschina.net/lujianing/blog/200135-->
-        <dependency>
-            <groupId>org.mybatis.generator</groupId>
-            <artifactId>mybatis-generator-maven-plugin</artifactId>
-            <version>1.3.6</version>
-        </dependency>
-    </dependencies>
-    
+
+    <build>
+        <plugins>
+            <!-- https://mvnrepository.com/artifact/org.mybatis.generator/mybatis-generator-maven-plugin -->
+            <!--https://my.oschina.net/lujianing/blog/200135-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.6</version>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

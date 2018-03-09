@@ -4,6 +4,8 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
+	<classPathEntry
+			location="C:\Users\frank\.m2\repository\mysql\mysql-connector-java\5.1.32\mysql-connector-java-5.1.32.jar" />
 	<context id="testTables" targetRuntime="MyBatis3">
 		<commentGenerator>
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -11,7 +13,7 @@
 		</commentGenerator>
 		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/pinyougou" userId="root"
+			connectionURL="jdbc:mysql://localhost:3306/pinyougoudb" userId="root"
 			password="root">
 		</jdbcConnection>
 		<!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
@@ -28,7 +30,7 @@
 
 		<!-- targetProject:生成PO类的位置 -->
 		<javaModelGenerator targetPackage="com.pinyougou.pojo"
-			targetProject=".\src">
+			targetProject="./src/main/java"><!-- targetProject可以配成MAVEN,会生成下target目录下 -->
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
@@ -36,14 +38,14 @@
 		</javaModelGenerator>
         <!-- targetProject:mapper映射文件生成的位置 -->
 		<sqlMapGenerator targetPackage="com.pinyougou.mapper" 
-			targetProject=".\resource">
+			targetProject="./src/main/java">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 		<!-- targetPackage：mapper接口生成的位置 -->
 		<javaClientGenerator type="XMLMAPPER"
 			targetPackage="com.pinyougou.mapper" 
-			targetProject=".\src">
+			targetProject="./src/main/resources">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
@@ -59,7 +61,7 @@
 		<table schema="" tableName="tb_goods_desc"></table>
 		<table schema="" tableName="tb_item"></table>
 		<table schema="" tableName="tb_item_cat"></table>
-		<table schema="" tableName="tb_item_spec_option"></table>
+		<!--<table schema="" tableName="tb_item_spec_option"></table>-->
 		<table schema="" tableName="tb_order"></table>
 		<table schema="" tableName="tb_order_item"></table>
 		<table schema="" tableName="tb_pay_log"></table>
