@@ -17,4 +17,9 @@ public interface BrandService {
      * 返回分页列表
      */
     PageResult findPage(int pageNum, int pageSize);
+
+    /**
+     * 增加品牌
+     */
+    void add(TbBrand brand);
 }
