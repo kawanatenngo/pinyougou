@@ -37,4 +37,9 @@ public interface BrandService {
      * 根据id删除品牌
      */
     void delete(Long... ids);
+
+    /**
+     * 分页条件查询品牌
+     */
+    PageResult findPage(TbBrand brand, int pageNum, int pageSize);
 }

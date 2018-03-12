@@ -85,4 +85,12 @@ public class BrandController {
             return new Result(false, "删除失败");
         }
     }
+
+    /**
+     * 分页条件查询品牌
+     */
+    @RequestMapping("/search")
+    public PageResult search(@RequestBody TbBrand brand, int page, int rows) {
+        return brandService.findPage(brand, page, rows);
+    }
 }
