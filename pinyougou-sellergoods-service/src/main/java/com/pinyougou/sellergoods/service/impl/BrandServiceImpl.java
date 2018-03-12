@@ -40,4 +40,11 @@ public class BrandServiceImpl implements BrandService {
     public TbBrand findOne(Long id) {
         return brandMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public void delete(Long... ids) {
+        for (Long id : ids) {
+            brandMapper.deleteByPrimaryKey(id);
+        }
+    }
 }

@@ -32,4 +32,9 @@ public interface BrandService {
      * 根据id查找品牌
      */
     TbBrand findOne(Long id);
+
+    /**
+     * 根据id删除品牌
+     */
+    void delete(Long... ids);
 }
