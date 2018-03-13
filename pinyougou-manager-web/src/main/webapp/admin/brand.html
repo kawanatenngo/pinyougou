@@ -85,7 +85,7 @@
                     $scope.selectIds.push(id);
 				}else {
                     var idx = $scope.selectIds.indexOf(id);
-                    $scope.selectIds.slice(idx, 1);//删除
+                    $scope.selectIds.splice(idx, 1);//删除
                 }
             };
             //批量删除
@@ -93,6 +93,7 @@
 				$http.get('../brand/delete.do?ids='+$scope.selectIds).success(
 				    function (response) {
 						if(response.success) {
+                            $scope.selectIds = [];
 							$scope.reloadList();//刷新列表
                         }
                     }
