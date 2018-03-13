@@ -24,7 +24,7 @@ app.controller('baseController',function ($scope) {
             $scope.selectIds.push(id);
         }else {
             var idx = $scope.selectIds.indexOf(id);
-            $scope.selectIds.slice(idx, 1);//删除
+            $scope.selectIds.splice(idx, 1);//删除
         }
     };
 });
