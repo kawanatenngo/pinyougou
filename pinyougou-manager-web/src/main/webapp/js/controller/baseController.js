@@ -5,6 +5,8 @@ app.controller('baseController',function ($scope) {
         //切换页码
         //$scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
         $scope.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
+        //解决选中后，刷新了还在列表的情况
+        $scope.selectIds=[];
     };
     //分页控件配置
     $scope.paginationConf = {
