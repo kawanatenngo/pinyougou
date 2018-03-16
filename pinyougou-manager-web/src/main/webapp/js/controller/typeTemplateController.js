@@ -1,5 +1,5 @@
  //控制层 
-app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService){	
+app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService,brandService,specificationService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -26,7 +26,11 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	$scope.findOne=function(id){				
 		typeTemplateService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
+                //转换字符串为json对象（集合）
+                $scope.entity.brandIds = JSON.parse($scope.entity.brandIds);
+                $scope.entity.specIds = JSON.parse($scope.entity.specIds);
+                $scope.entity.customAttributeItems = JSON.parse($scope.entity.customAttributeItems);
 			}
 		);				
 	}
@@ -75,5 +79,36 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 			}			
 		);
 	}
-    
+	//品牌列表下拉
+	//品牌列表
+	//$scope.brandList = {data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]}
+    $scope.brandList = {data: []};
+	//读取品牌列表
+    $scope.findBrandList = function () {
+        brandService.selectOptionList().success(
+            function (response) {
+                $scope.brandList = {data: response};
+            }
+        )
+    };
+    //规格列表下拉
+    //规格列表
+    //$scope.brandList = {data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]}
+    $scope.specificationList = {data: []};
+    //读取规格列表
+    $scope.findSpecificationList = function () {
+        specificationService.selectOptionList().success(
+            function (response) {
+                $scope.specificationList = {data: response};
+            }
+        )
+    };
+    //新增扩展属性行
+	$scope.addTableRow = function () {
+        $scope.entity.customAttributeItems.push({});
+    }
+    //删除扩展属性行
+	$scope.deleTableRow = function (index) {
+        $scope.entity.customAttributeItems.splice(index, 1);
+    }
 });	

@@ -1,6 +1,9 @@
 package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.sellergoods.service.BrandService;
 import entity.PageResult;
@@ -92,5 +95,14 @@ public class BrandController {
     @RequestMapping("/search")
     public PageResult search(@RequestBody TbBrand brand, int page, int rows) {
         return brandService.findPage(brand, page, rows);
+    }
+
+    @RequestMapping("/selectOptionList")
+    public String selectOptionList(){
+        List<TbBrand> list = brandService.findAll();
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(TbBrand.class, "id","name");
+        String result = JSON.toJSONString(list, filter);
+        return result.replaceAll("name", "text");
+        //return result;
     }
 }

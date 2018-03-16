@@ -1,6 +1,9 @@
 package com.pinyougou.manager.controller;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.pojogroup.Specification;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -102,7 +105,7 @@ public class SpecificationController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param specification
 	 * @param page
 	 * @param rows
 	 * @return
@@ -110,6 +113,14 @@ public class SpecificationController {
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbSpecification specification, int page, int rows  ){
 		return specificationService.findPage(specification, page, rows);		
+	}
+
+	@RequestMapping("/selectOptionList")
+	public String selectOptionList(){
+		List<TbSpecification> list = specificationService.findAll();
+		SimplePropertyPreFilter filter = new SimplePropertyPreFilter(TbBrand.class, "id","specName");
+		String result = JSON.toJSONString(list, filter);
+		return result.replaceAll("specName", "text");
 	}
 	
 }
