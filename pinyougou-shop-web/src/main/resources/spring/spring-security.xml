@@ -30,7 +30,7 @@
     </security:authentication-manager>
     <!-- 引用dubbo服务 -->
     <dubbo:application name="pinyougou-shop-web"/>
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="zookeeper://${zookeeper.url}"/>
     <dubbo:reference interface="com.pinyougou.sellergoods.service.SellerService" id="sellerService"/>
     <bean id="useDetailsService" class="com.pinyougou.service.UseDetailsServiceImpl">
         <property name="sellerService" ref="sellerService"/>
