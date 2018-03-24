@@ -34,7 +34,10 @@
     <script src="../js/base.js"></script>
     <script src="../js/service/loginService.js"></script>
     <script src="../js/controller/indexController.js"></script>
-
+    <script type="text/javascript">
+        if (top.location != self.location)
+            top.location = self.location;
+    </script>
 </head>
 
 <body class="hold-transition skin-green sidebar-mini" ng-app="pinyougou" ng-controller="indexController" ng-init="showLoginName()">
