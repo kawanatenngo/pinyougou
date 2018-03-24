@@ -255,10 +255,37 @@
 
     </dependencyManagement>
 
-
+    <profiles>
+        <profile>
+            <id>aliyun</id>
+            <properties>
+                <build.profile.id>aliyun</build.profile.id>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 
     <build>
-
+        <filters>
+            <!--
+                Ensures that the config.properties file is always loaded from the
+		        configuration directory of the active Maven profile. 
+            -->
+            <filter>profiles/${build.profile.id}/config.properties</filter>
+        </filters>
+        <resources>
+            <!--
+                Placeholders that are found from the files located in the configured resource
+                directories are replaced with the property values found from the profile
+                specific configuration file.
+            -->
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <!-- java编译插件 -->
             <plugin>
