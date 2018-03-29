@@ -20,5 +20,5 @@
 	    </bean>
 	  </mvc:message-converters>  
 	</mvc:annotation-driven>
-
+	<dubbo:annotation package="com.pinyougou.shop.controller"/>
 </beans>

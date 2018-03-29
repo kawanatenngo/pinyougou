@@ -50,7 +50,20 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}		
 		);				
 	}
-	
+
+	//增加商品
+    $scope.add = function () {
+		goodsService.add($scope.entity).success(
+			function (response) {
+                if (response.success) {
+                    alert('保存成功');
+                    $scope.entity = {};
+                } else {
+                    alert(response.message);
+				}
+            }
+		)
+    };
 	 
 	//批量删除 
 	$scope.dele=function(){			
