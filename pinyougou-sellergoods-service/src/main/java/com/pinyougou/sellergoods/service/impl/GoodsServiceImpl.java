@@ -178,6 +178,9 @@ public class GoodsServiceImpl implements GoodsService {
 			if(goods.getIsDelete()!=null && goods.getIsDelete().length()>0){
 				criteria.andIsDeleteLike("%"+goods.getIsDelete()+"%");
 			}
+			if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
+				criteria.andSellerIdEqualTo(goods.getSellerId());
+			}
 	
 		}
 		
