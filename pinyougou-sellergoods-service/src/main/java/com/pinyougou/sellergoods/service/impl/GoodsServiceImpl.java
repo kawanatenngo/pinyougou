@@ -69,28 +69,7 @@ public class GoodsServiceImpl implements GoodsService {
 		goodsMapper.insert(goods.getGoods());//插入商品表
 		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());//设置ID
 		goodsDescMapper.insert(goods.getGoodsDesc());//插入商品扩展数据
-		if ("1".equals(goods.getGoods().getIsEnableSpec())) {
-			for(TbItem item:goods.getItemList()){
-				StringBuilder title = new StringBuilder(goods.getGoods().getGoodsName());
-				Map<String, Object> specMap = JSON.parseObject(item.getSpec());
-				for (String key : specMap.keySet()) {
-					title.append(key);
-				}
-				item.setTitle(title.toString());//商品SPU+规格描述串做为SKU名称
-				setItemValues(goods,item);
-				itemMapper.insert(item);
-			}
-		} else {
-			//不启用规格，相当于只生成一个SKU
-			TbItem item = new TbItem();
-			item.setTitle(goods.getGoods().getGoodsName());
-			item.setPrice(goods.getGoods().getPrice());
-			item.setStatus("1");
-			item.setNum(99999);
-			item.setSpec("{}");
-			setItemValues(goods,item);
-			itemMapper.insert(item);
-		}
+		saveItemList(goods);
 
 	}
 
@@ -121,8 +100,15 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbGoods goods){
-		goodsMapper.updateByPrimaryKey(goods);
+	public void update(Goods goods){
+		goods.getGoods().setAuditStatus("0");//设置未申请状态：如果是经过修改的商品，需要重新设置状态
+		goodsMapper.updateByPrimaryKey(goods.getGoods());
+		goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+		TbItemExample example = new TbItemExample();
+		TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andGoodsIdEqualTo(goods.getGoods().getId());
+		itemMapper.deleteByExample(example);
+		saveItemList(goods);
 	}	
 	
 	/**
@@ -131,8 +117,19 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @return
 	 */
 	@Override
-	public TbGoods findOne(Long id){
-		return goodsMapper.selectByPrimaryKey(id);
+	public Goods findOne(Long id){
+		Goods goods = new Goods();
+		TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+		goods.setGoods(tbGoods);
+		TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(id);
+		goods.setGoodsDesc(tbGoodsDesc);
+		//查询sku商品列表
+		TbItemExample example = new TbItemExample();
+		TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andGoodsIdEqualTo(id);
+		List<TbItem> tbItemList = itemMapper.selectByExample(example);
+		goods.setItemList(tbItemList);
+		return goods;
 	}
 
 	/**
@@ -187,5 +184,32 @@ public class GoodsServiceImpl implements GoodsService {
 		Page<TbGoods> page= (Page<TbGoods>)goodsMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	/**
+	 * 插入sku列表数据
+	 */
+	private void saveItemList(Goods goods) {
+		if ("1".equals(goods.getGoods().getIsEnableSpec())) {
+			for(TbItem item:goods.getItemList()){
+				StringBuilder title = new StringBuilder(goods.getGoods().getGoodsName());
+				Map<String, Object> specMap = JSON.parseObject(item.getSpec());
+				for (String key : specMap.keySet()) {
+					title.append(key);
+				}
+				item.setTitle(title.toString());//商品SPU+规格描述串做为SKU名称
+				setItemValues(goods,item);
+				itemMapper.insert(item);
+			}
+		} else {
+			//不启用规格，相当于只生成一个SKU
+			TbItem item = new TbItem();
+			item.setTitle(goods.getGoods().getGoodsName());
+			item.setPrice(goods.getGoods().getPrice());
+			item.setStatus("1");
+			item.setNum(99999);
+			item.setSpec("{}");
+			setItemValues(goods,item);
+			itemMapper.insert(item);
+		}
+	}
 }

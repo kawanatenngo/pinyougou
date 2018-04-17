@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat1List()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat1List();findOne()">
 
             <!-- 正文区域 -->
             <section class="content">
@@ -120,12 +120,12 @@
 		                           <div class="col-md-2 title rowHeight2x">包装列表</div>
 		                           <div class="col-md-10 data rowHeight2x">
 		                               
-		                           	<textarea rows="4"  class="form-control" ng-model="entity.goods.packageList"  placeholder="包装列表"></textarea>
+		                           	<textarea rows="4"  class="form-control" ng-model="entity.goodsDesc.packageList"  placeholder="包装列表"></textarea>
 		                           </div>
 		                           
 		                           <div class="col-md-2 title rowHeight2x">售后服务</div>
 		                           <div class="col-md-10 data rowHeight2x">
-		                               <textarea rows="4"  class="form-control"  ng-model="entity.goods.saleService"  placeholder="售后服务"></textarea>
+		                               <textarea rows="4"  class="form-control"  ng-model="entity.goodsDesc.saleService"  placeholder="售后服务"></textarea>
 		                           </div>                        
                                   
                                     
@@ -207,7 +207,8 @@
                                             <div class="col-md-10 data">
 
 					                            <span ng-repeat="option in pojo.option">
-					                            	<input  type="checkbox" ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()">{{option.optionName}}
+					                            	<input  type="checkbox" ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()"
+															ng-checked="checkAttributeValue(pojo.text,option.optionName)">{{option.optionName}}
 					                            </span>
 
                                             </div>
@@ -297,8 +298,8 @@
                  	
                    </div>
                   <div class="btn-toolbar list-toolbar">
-				      <button class="btn btn-primary" ng-click="add()"><i class="fa fa-save"></i>保存</button>
-				      <button class="btn btn-default" >返回列表</button>
+				      <button class="btn btn-primary" ng-click="save()"><i class="fa fa-save"></i>保存</button>
+				      <button class="btn btn-default" href="goods.html">返回列表</button>
 				  </div>
 			
             </section>
